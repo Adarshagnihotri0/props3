@@ -1,34 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react'
+import Card from './Components/Card'
+import Navbar from './Components/Navbar'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const raw = [
+    {image:"https://images.unsplash.com/photo-1463438690606-f6778b8c1d10?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" , song:"Sajni" ,artist: "Ram Sampath", added:false},
+    {image:"https://images.unsplash.com/photo-1520454125516-134a66d9bf78?q=80&w=2835&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" , song:"Apna Bana Le" ,artist:"Arijit Singh", added:false},
+    {image:"https://plus.unsplash.com/premium_photo-1663011373221-9bce9f22261e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" , song:"Tauba Tauba" ,artist: "Karan Aujla", added:true},
+    {image:"https://images.unsplash.com/photo-1505672984986-b7c468c7a134?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" , song:"Tum Hi Ho" ,artist: "Arijit Singh", added:false},
+  ]
 
+  const [songData, setSongData] = useState(raw);
+  const handleClick = (index) => {
+   setSongData((prev)=>{
+    return prev.map((item, itemindex)=>{
+      if(itemindex === index) return{...item, added: !item.added};
+      return item;
+
+    })
+
+   })
+  }
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='w-full h-screen bg-gray-300 text-white'>
+      <Navbar data={songData}/>
+      <div className='px-10 flex gap-10 mt-16 flex-wrap'>
+        {songData.map((obj,index)=>(
+          <Card raw={obj} handleClick={handleClick} key={index} index={index} />
+        ))}
+
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+     
+    </div>
   )
 }
 
